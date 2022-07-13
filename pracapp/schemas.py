@@ -1,48 +1,60 @@
-from datetime import datetime
-from sqlite3 import Date
 from pydantic import BaseModel
-from sqlalchemy import Integer
 
 from .database import Base
 
+
 class DogBase(BaseModel):
+    """Is the Base Model for the Dog Class."""
+
     name: str
-    owner: str
     age: int
     breed: str
 
-class DogCreate(DogBase):
-    pass
 
 class Dog(DogBase):
-    id: int
-    
-    class Config:
-        orm_mode =True 
+    """Initializes the Dog Class."""
 
-class OwnerBase(BaseModel):
-    name: str
-    paid: bool
-    
-class OwnerCreate(OwnerBase):
-    pass
-
-class Owner(OwnerBase):
     id: int
+    owner_id: int
 
     class Config:
+        """Configuress orm_mode for Dog Class"""
+
         orm_mode = True
 
+
+class OwnerBase(BaseModel):
+    """Is the Base Model for the Owner Class."""
+
+    name: str
+    paid: bool
+
+
+class Owner(OwnerBase):
+    """Initializes the Owner Class."""
+
+    id: int
+    dogs = list[Dog]
+
+    class Config:
+        """Configures orm_mode for Owner Class"""
+
+        orm_mode = True
+
+
 class PayBase(BaseModel):
+    """Is the Base Model for the Pay Class."""
+
     name: str
     amount: float
 
-class PayCreate(PayBase):
-    pass
 
 class Pay(PayBase):
-    id: int
-    
-    class Config:
-        orm_mode = True
+    """Initializes the Pay Class."""
 
+    id: int
+
+    class Config:
+        """Configures orm_mode for Pay Class"""
+
+        orm_mode = True
