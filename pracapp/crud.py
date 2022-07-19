@@ -78,11 +78,10 @@ def get_payment_by_name(db: Session, name: str) -> list:
 def get_all_data_by_name(db: Session, user_name: str) -> list[tuple]:
     """Returns all data under a specified name."""
     return (
-        db.query(models.Payments, models.Owner, models.Dog)
+        db.query(models.Payments, models.Owner)
         .filter(
             models.Owner.name == user_name,
             models.Payments.name == user_name,
-            models.Dog.owner == user_name,
         )
         .all()
     )
@@ -116,3 +115,10 @@ def remove_pay(db: Session, payment_id) -> Any:
     db.delete(payment2delete)
     db.commit()
     return payment2delete
+
+
+def del_dog(db: Session, id) -> Any:
+    dog2delete = db.query(models.Dog).filter(models.Dog.id == id).one()
+    db.delete(dog2delete)
+    db.commit()
+    return dog2delete
